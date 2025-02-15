@@ -19,7 +19,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
-@router.post("/login/")
+@router.post("/", response_model=dict)
 def login(user_credentials: schemas.UserCreate, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.email == user_credentials.email).first()
     if not user or not auth.verify_password(user_credentials.password, user.password):
