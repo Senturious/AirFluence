@@ -14,9 +14,9 @@ app = FastAPI()
 # Create database tables
 Base.metadata.create_all(bind=engine)
 
-# Register routes
-app.include_router(users.router)
-app.include_router(auth.router)
+# Register routes with prefixes
+app.include_router(users.router, prefix="/users", tags=["Users"])
+app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 
 @app.get("/")
 def read_root():
