@@ -6,7 +6,7 @@ from app import models, schemas, auth
 router = APIRouter()
 
 
-@router.post("/users/", response_model=schemas.UserResponse)
+@router.post("/", response_model=schemas.UserResponse)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(models.User).filter(models.User.email == user.email).first()
     if existing_user:
