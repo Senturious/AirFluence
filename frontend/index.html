@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirFluence Auth</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-button" onclick="showTab('login')">Login</button>
+            <button class="tab-button" onclick="showTab('register')">Register</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form" class="form-container">
+            <h2>Login</h2>
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-password" placeholder="Password">
+            <button onclick="login()">Login</button>
+        </div>
+
+        <!-- Register Form -->
+        <div id="register-form" class="form-container hidden">
+            <h2>Register</h2>
+            <input type="text" id="register-name" placeholder="Name">
+            <input type="email" id="register-email" placeholder="Email">
+            <input type="password" id="register-password" placeholder="Password">
+            <button onclick="register()">Register</button>
+        </div>
+    </div>
+
+    <script>
+        let token = "";
+        const API_URL = "http://127.0.0.1:4000";
+
+        async function register() {
+            const name = document.getElementById("register-name").value;
+            const email = document.getElementById("register-email").value;
+            const password = document.getElementById("register-password").value;
+            
+            const response = await fetch(`${API_URL}/users`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password })
+            });
+            
+            const data = await response.json();
+            alert("Registration successful: " + JSON.stringify(data));
+        }
+
+        async function login() {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+            
+            const response = await fetch(`${API_URL}/auth/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: new URLSearchParams({ username: email, password })
+            });
+            
+            const data = await response.json();
+            token = data.access_token;
+            alert("Login successful. Token received: " + token);
+        }
+
+        function showTab(tab) {
+            if (tab === "login") {
+                document.getElementById("login-form").classList.remove("hidden");
+                document.getElementById("register-form").classList.add("hidden");
+            } else {
+                document.getElementById("register-form").classList.remove("hidden");
+                document.getElementById("login-form").classList.add("hidden");
+            }
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,1 +1,11 @@
-ECHO is on.
+{
+  "name": "airfluence-api-test",
+  "version": "1.0.0",
+  "description": "A simple frontend interface to test AirFluence API",
+  "scripts": {
+    "start": "http-server -p 3000"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
